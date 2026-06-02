@@ -47,11 +47,40 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
+
+
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.draw.clip
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.ui.draw.scale
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.unit.sp
 
 
 class MainActivity : ComponentActivity() {
@@ -70,7 +99,6 @@ class MainActivity : ComponentActivity() {
 fun WorldCupHomeScreen() {
     val repository = remember { FootballRepository() }
 
-    val teamsErrorMessage = stringResource(R.string.teams_error_message)
     val loadingTeamsMessage = stringResource(R.string.loading_teams)
     val emptyTeamsMessage = stringResource(R.string.empty_teams)
     val connectionErrorMessage = stringResource(R.string.connection_error_message)
@@ -103,61 +131,90 @@ fun WorldCupHomeScreen() {
         }
     }
 
-    if (selectedTeam == null) {
-        Scaffold(
-            modifier = Modifier.fillMaxSize()
-        ) { innerPadding ->
+    AnimatedContent(
+        targetState = selectedTeam,
+        transitionSpec = {
+            if (targetState != null) {
+                slideInHorizontally(
+                    animationSpec = tween(durationMillis = 350)
+                ) { fullWidth -> fullWidth } + fadeIn(
+                    animationSpec = tween(durationMillis = 350)
+                ) togetherWith slideOutHorizontally(
+                    animationSpec = tween(durationMillis = 300)
+                ) { fullWidth -> -fullWidth / 3 } + fadeOut(
+                    animationSpec = tween(durationMillis = 250)
+                )
+            } else {
+                slideInHorizontally(
+                    animationSpec = tween(durationMillis = 350)
+                ) { fullWidth -> -fullWidth / 3 } + fadeIn(
+                    animationSpec = tween(durationMillis = 350)
+                ) togetherWith slideOutHorizontally(
+                    animationSpec = tween(durationMillis = 300)
+                ) { fullWidth -> fullWidth } + fadeOut(
+                    animationSpec = tween(durationMillis = 250)
+                )
+            }
+        },
+        label = "screen_transition"
+    ) { currentTeam ->
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0xFFF2F5FA))
-                    .padding(innerPadding)
-            ) {
-                HeaderSection()
+        if (currentTeam == null) {
+            Scaffold(
+                modifier = Modifier.fillMaxSize()
+            ) { innerPadding ->
 
-                when (val state = teamsState) {
-                    is UiState.Loading -> {
-                        LoadingContent(message = loadingTeamsMessage)
-                    }
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color(0xFFF2F5FA))
+                        .padding(innerPadding)
+                ) {
+                    HeaderSection()
 
-                    is UiState.Success -> {
-                        TeamsList(
-                            teams = state.data,
-                            onTeamClick = { team ->
-                                selectedTeam = team
-                            }
-                        )
-                    }
+                    when (val state = teamsState) {
+                        is UiState.Loading -> {
+                            LoadingContent(message = loadingTeamsMessage)
+                        }
 
-                    is UiState.Error -> {
-                        ErrorContent(
-                            message = state.message,
-                            onRetry = {
-                                loadTeams()
-                            }
-                        )
-                    }
+                        is UiState.Success -> {
+                            TeamsList(
+                                teams = state.data,
+                                onTeamClick = { team ->
+                                    selectedTeam = team
+                                }
+                            )
+                        }
 
-                    is UiState.Empty -> {
-                        EmptyContent(
-                            message = emptyTeamsMessage,
-                            onRetry = {
-                                loadTeams()
-                            }
-                        )
+                        is UiState.Error -> {
+                            ErrorContent(
+                                message = state.message,
+                                onRetry = {
+                                    loadTeams()
+                                }
+                            )
+                        }
+
+                        is UiState.Empty -> {
+                            EmptyContent(
+                                message = emptyTeamsMessage,
+                                onRetry = {
+                                    loadTeams()
+                                }
+                            )
+                        }
                     }
                 }
             }
+        } else {
+            PlayersScreen(
+                teamItem = currentTeam,
+                repository = repository,
+                onBack = {
+                    selectedTeam = null
+                }
+            )
         }
-    } else {
-        PlayersScreen(
-            teamItem = selectedTeam!!,
-            repository = repository,
-            onBack = {
-                selectedTeam = null
-            }
-        )
     }
 }
 
@@ -267,13 +324,29 @@ fun TeamCard(
     val teamImageModel: Any = if (team?.logo.isNullOrBlank()) {
         R.drawable.ic_flag_placeholder
     } else {
-        team?.logo!!
+        team.logo
     }
+
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    val cardScale by animateFloatAsState(
+        targetValue = if (isPressed) 0.97f else 1f,
+        animationSpec = tween(durationMillis = 120),
+        label = "team_card_press_animation"
+    )
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
+            .scale(cardScale)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null
+            ) {
                 onClick()
             },
         shape = RoundedCornerShape(20.dp),
@@ -585,18 +658,60 @@ fun PlayerCard(
 fun LoadingContent(
     message: String
 ) {
+    val infiniteTransition = rememberInfiniteTransition(
+        label = "loading_animation"
+    )
+
+    val ballScale by infiniteTransition.animateFloat(
+        initialValue = 0.85f,
+        targetValue = 1.15f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 650),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "ball_scale"
+    )
+
+    val ballAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.65f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 650),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "ball_alpha"
+    )
+
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF2F5FA)),
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            CircularProgressIndicator()
+            Text(
+                text = "⚽",
+                fontSize = 44.sp,
+                modifier = Modifier
+                    .scale(ballScale)
+                    .alpha(ballAlpha)
+            )
 
             Text(
                 text = message,
-                modifier = Modifier.padding(top = 12.dp)
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF1B1D29),
+                modifier = Modifier.padding(top = 18.dp)
+            )
+
+            Text(
+                text = "Preparando información del Mundial 2026",
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color(0xFF4E5668),
+                modifier = Modifier.padding(top = 6.dp)
             )
         }
     }
