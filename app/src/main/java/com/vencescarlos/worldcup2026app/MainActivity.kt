@@ -81,7 +81,8 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.sp
-
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.saveable.rememberSaveable
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,6 +106,10 @@ fun WorldCupHomeScreen() {
 
     var selectedTeam by remember {
         mutableStateOf<TeamItem?>(null)
+    }
+
+    var searchQuery by rememberSaveable {
+        mutableStateOf("")
     }
 
     var teamsState by remember {
@@ -178,12 +183,34 @@ fun WorldCupHomeScreen() {
                         }
 
                         is UiState.Success -> {
-                            TeamsList(
-                                teams = state.data,
-                                onTeamClick = { team ->
-                                    selectedTeam = team
+                            TeamSearchBar(
+                                searchQuery = searchQuery,
+                                onSearchChange = { newValue ->
+                                    searchQuery = newValue
                                 }
                             )
+
+                            val filteredTeams = state.data.filter { teamItem ->
+                                val team = teamItem.team
+                                val venue = teamItem.venue
+
+                                searchQuery.isBlank() ||
+                                        team?.name.orEmpty().contains(searchQuery, ignoreCase = true) ||
+                                        team?.code.orEmpty().contains(searchQuery, ignoreCase = true) ||
+                                        team?.country.orEmpty().contains(searchQuery, ignoreCase = true) ||
+                                        venue?.name.orEmpty().contains(searchQuery, ignoreCase = true)
+                            }
+
+                            if (filteredTeams.isEmpty()) {
+                                NoSearchResultsContent(searchQuery = searchQuery)
+                            } else {
+                                TeamsList(
+                                    teams = filteredTeams,
+                                    onTeamClick = { team ->
+                                        selectedTeam = team
+                                    }
+                                )
+                            }
                         }
 
                         is UiState.Error -> {
@@ -282,6 +309,84 @@ fun HeaderSection() {
     }
 }
 
+@Composable
+fun TeamSearchBar(
+    searchQuery: String,
+    onSearchChange: (String) -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .padding(bottom = 14.dp),
+        shape = RoundedCornerShape(20.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+        OutlinedTextField(
+            value = searchQuery,
+            onValueChange = onSearchChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            placeholder = {
+                Text(text = stringResource(R.string.search_teams_hint))
+            },
+            leadingIcon = {
+                Text(text = "🔎")
+            },
+            trailingIcon = {
+                if (searchQuery.isNotEmpty()) {
+                    Text(
+                        text = stringResource(R.string.clear_search_button),
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF165DAD),
+                        modifier = Modifier
+                            .clickable {
+                                onSearchChange("")
+                            }
+                            .padding(horizontal = 8.dp)
+                    )
+                }
+            },
+            singleLine = true,
+            shape = RoundedCornerShape(16.dp)
+        )
+    }
+}
+
+@Composable
+fun NoSearchResultsContent(
+    searchQuery: String
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF2F5FA)),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            modifier = Modifier.padding(28.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.search_no_results_title),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF1B1D29)
+            )
+
+            Text(
+                text = stringResource(R.string.search_no_results_message, searchQuery),
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color(0xFF4E5668),
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
+    }
+}
 @Composable
 fun TeamsList(
     teams: List<TeamItem>,

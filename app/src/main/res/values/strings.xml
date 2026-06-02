@@ -36,4 +36,9 @@
     <string name="player_number">Número: %1$s</string>
 
     <string name="app_banner_description">Imagen de portada de fútbol</string>
+
+    <string name="search_teams_hint">Buscar selección...</string>
+    <string name="clear_search_button">×</string>
+    <string name="search_no_results_title">Sin resultados</string>
+    <string name="search_no_results_message">No se encontraron equipos relacionados con %1$s.</string>
 </resources>
