@@ -10,6 +10,8 @@
 .DS_Store
 /build
 /captures
+/app/src/main/java/com/vencescarlos/worldcup2026app/data/api/ApiKeys.kt
 .externalNativeBuild
 .cxx
 local.properties
+
