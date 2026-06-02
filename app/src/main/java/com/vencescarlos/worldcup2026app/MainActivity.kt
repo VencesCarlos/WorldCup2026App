@@ -1,70 +1,8 @@
 package com.vencescarlos.worldcup2026app
 
-
-
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
-import com.vencescarlos.worldcup2026app.data.model.PlayerInfo
-import com.vencescarlos.worldcup2026app.data.model.SquadItem
-import com.vencescarlos.worldcup2026app.data.model.TeamItem
-import com.vencescarlos.worldcup2026app.data.repository.FootballRepository
-import com.vencescarlos.worldcup2026app.ui.theme.WorldCup2026AppTheme
-import com.vencescarlos.worldcup2026app.utils.UiState
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CardDefaults
-
-
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.draw.clip
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.ui.draw.scale
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -77,12 +15,70 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
+import com.vencescarlos.worldcup2026app.data.model.PlayerInfo
+import com.vencescarlos.worldcup2026app.data.model.SquadItem
+import com.vencescarlos.worldcup2026app.data.model.TeamItem
+import com.vencescarlos.worldcup2026app.data.repository.FootballRepository
+import com.vencescarlos.worldcup2026app.ui.theme.WorldCup2026AppTheme
+import com.vencescarlos.worldcup2026app.ui.theme.WorldCupCardBackground
+import com.vencescarlos.worldcup2026app.ui.theme.WorldCupDarkText
+import com.vencescarlos.worldcup2026app.ui.theme.WorldCupHeaderOverlayEnd
+import com.vencescarlos.worldcup2026app.ui.theme.WorldCupHeaderOverlayStart
+import com.vencescarlos.worldcup2026app.ui.theme.WorldCupOnDarkSecondaryText
+import com.vencescarlos.worldcup2026app.ui.theme.WorldCupOnDarkText
+import com.vencescarlos.worldcup2026app.ui.theme.WorldCupPlayerHeaderBackground
+import com.vencescarlos.worldcup2026app.ui.theme.WorldCupPrimaryBlue
+import com.vencescarlos.worldcup2026app.ui.theme.WorldCupSecondaryText
+import com.vencescarlos.worldcup2026app.ui.theme.WorldCupSoftBlue
+import com.vencescarlos.worldcup2026app.ui.theme.WorldCupSoftGreen
+import com.vencescarlos.worldcup2026app.ui.theme.WorldCupSoftRed
+import com.vencescarlos.worldcup2026app.utils.UiState
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,6 +90,25 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+fun worldCupBackgroundBrush(): Brush {
+    return Brush.linearGradient(
+        colors = listOf(
+            WorldCupSoftRed,
+            WorldCupSoftBlue,
+            WorldCupSoftGreen
+        )
+    )
+}
+
+fun worldCupHeaderOverlayBrush(): Brush {
+    return Brush.verticalGradient(
+        colors = listOf(
+            WorldCupHeaderOverlayStart,
+            WorldCupHeaderOverlayEnd
+        )
+    )
 }
 
 @Composable
@@ -172,7 +187,7 @@ fun WorldCupHomeScreen() {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color(0xFFF2F5FA))
+                        .background(brush = worldCupBackgroundBrush())
                         .padding(innerPadding)
                 ) {
                     HeaderSection()
@@ -195,10 +210,14 @@ fun WorldCupHomeScreen() {
                                 val venue = teamItem.venue
 
                                 searchQuery.isBlank() ||
-                                        team?.name.orEmpty().contains(searchQuery, ignoreCase = true) ||
-                                        team?.code.orEmpty().contains(searchQuery, ignoreCase = true) ||
-                                        team?.country.orEmpty().contains(searchQuery, ignoreCase = true) ||
-                                        venue?.name.orEmpty().contains(searchQuery, ignoreCase = true)
+                                        team?.name.orEmpty()
+                                            .contains(searchQuery, ignoreCase = true) ||
+                                        team?.code.orEmpty()
+                                            .contains(searchQuery, ignoreCase = true) ||
+                                        team?.country.orEmpty()
+                                            .contains(searchQuery, ignoreCase = true) ||
+                                        venue?.name.orEmpty()
+                                            .contains(searchQuery, ignoreCase = true)
                             }
 
                             if (filteredTeams.isEmpty()) {
@@ -269,14 +288,7 @@ fun HeaderSection() {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color(0xDD000000)
-                            )
-                        )
-                    )
+                    .background(brush = worldCupHeaderOverlayBrush())
             )
 
             Column(
@@ -288,20 +300,20 @@ fun HeaderSection() {
                     text = stringResource(R.string.main_title),
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = WorldCupOnDarkText
                 )
 
                 Text(
                     text = stringResource(R.string.teams_subtitle),
                     style = MaterialTheme.typography.titleMedium,
-                    color = Color.White,
+                    color = WorldCupOnDarkText,
                     modifier = Modifier.padding(top = 4.dp)
                 )
 
                 Text(
                     text = stringResource(R.string.main_description),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White,
+                    color = WorldCupOnDarkText,
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }
@@ -322,7 +334,7 @@ fun TeamSearchBar(
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = WorldCupCardBackground
         )
     ) {
         OutlinedTextField(
@@ -335,14 +347,14 @@ fun TeamSearchBar(
                 Text(text = stringResource(R.string.search_teams_hint))
             },
             leadingIcon = {
-                Text(text = "🔎")
+                Text(text = stringResource(R.string.search_icon))
             },
             trailingIcon = {
                 if (searchQuery.isNotEmpty()) {
                     Text(
                         text = stringResource(R.string.clear_search_button),
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF165DAD),
+                        color = WorldCupPrimaryBlue,
                         modifier = Modifier
                             .clickable {
                                 onSearchChange("")
@@ -364,7 +376,7 @@ fun NoSearchResultsContent(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF2F5FA)),
+            .background(brush = worldCupBackgroundBrush()),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -375,18 +387,19 @@ fun NoSearchResultsContent(
                 text = stringResource(R.string.search_no_results_title),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF1B1D29)
+                color = WorldCupDarkText
             )
 
             Text(
                 text = stringResource(R.string.search_no_results_message, searchQuery),
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color(0xFF4E5668),
+                color = WorldCupSecondaryText,
                 modifier = Modifier.padding(top = 8.dp)
             )
         }
     }
 }
+
 @Composable
 fun TeamsList(
     teams: List<TeamItem>,
@@ -457,7 +470,7 @@ fun TeamCard(
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = WorldCupCardBackground
         )
     ) {
         Row(
@@ -485,32 +498,32 @@ fun TeamCard(
                     text = teamName,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF1B1D29)
+                    color = WorldCupDarkText
                 )
 
                 Text(
                     text = stringResource(R.string.team_fifa_code, teamCode),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color(0xFF4E5668)
+                    color = WorldCupSecondaryText
                 )
 
                 Text(
                     text = stringResource(R.string.team_founded, teamFounded),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color(0xFF4E5668)
+                    color = WorldCupSecondaryText
                 )
 
                 Text(
                     text = stringResource(R.string.team_stadium, stadiumName),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color(0xFF4E5668)
+                    color = WorldCupSecondaryText
                 )
 
                 Text(
                     text = stringResource(R.string.see_players),
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF165DAD),
+                    color = WorldCupPrimaryBlue,
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }
@@ -526,7 +539,6 @@ fun PlayersScreen(
 ) {
     val team = teamItem.team
 
-    val playersErrorMessage = stringResource(R.string.players_error_message)
     val loadingPlayersMessage = stringResource(R.string.loading_players)
     val emptyPlayersMessage = stringResource(R.string.empty_players)
     val genericTeamName = stringResource(R.string.team_generic_name)
@@ -564,7 +576,7 @@ fun PlayersScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFF2F5FA))
+                .background(brush = worldCupBackgroundBrush())
                 .padding(innerPadding)
         ) {
             PlayersHeader(
@@ -621,10 +633,21 @@ fun PlayersHeader(
     teamLogo: String?,
     onBack: () -> Unit
 ) {
+    val teamImageModel: Any = if (teamLogo.isNullOrBlank()) {
+        R.drawable.ic_flag_placeholder
+    } else {
+        teamLogo
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(16.dp),
+        shape = RoundedCornerShape(24.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = WorldCupPlayerHeaderBackground
+        )
     ) {
         Column(
             modifier = Modifier
@@ -640,13 +663,17 @@ fun PlayersHeader(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp),
+                    .padding(top = 18.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 AsyncImage(
-                    model = teamLogo,
+                    model = teamImageModel,
                     contentDescription = teamName,
-                    modifier = Modifier.size(64.dp)
+                    placeholder = painterResource(id = R.drawable.ic_flag_placeholder),
+                    error = painterResource(id = R.drawable.ic_flag_placeholder),
+                    modifier = Modifier
+                        .size(72.dp)
+                        .clip(RoundedCornerShape(18.dp))
                 )
 
                 Spacer(modifier = Modifier.width(16.dp))
@@ -655,12 +682,14 @@ fun PlayersHeader(
                     Text(
                         text = stringResource(R.string.players_title),
                         style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = WorldCupOnDarkText
                     )
 
                     Text(
                         text = teamName,
                         style = MaterialTheme.typography.titleMedium,
+                        color = WorldCupOnDarkSecondaryText,
                         modifier = Modifier.padding(top = 4.dp)
                     )
                 }
@@ -698,7 +727,7 @@ fun PlayerCard(
     val playerImageModel: Any = if (player.photo.isNullOrBlank()) {
         R.drawable.ic_player_placeholder
     } else {
-        player.photo!!
+        player.photo
     }
 
     Card(
@@ -706,7 +735,7 @@ fun PlayerCard(
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = WorldCupCardBackground
         )
     ) {
         Row(
@@ -734,25 +763,25 @@ fun PlayerCard(
                     text = player.name,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF1B1D29)
+                    color = WorldCupDarkText
                 )
 
                 Text(
                     text = stringResource(R.string.player_position, playerPosition),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color(0xFF4E5668)
+                    color = WorldCupSecondaryText
                 )
 
                 Text(
                     text = stringResource(R.string.player_age, playerAge),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color(0xFF4E5668)
+                    color = WorldCupSecondaryText
                 )
 
                 Text(
                     text = stringResource(R.string.player_number, playerNumber),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color(0xFF4E5668)
+                    color = WorldCupSecondaryText
                 )
             }
         }
@@ -790,14 +819,14 @@ fun LoadingContent(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF2F5FA)),
+            .background(brush = worldCupBackgroundBrush()),
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "⚽",
+                text = stringResource(R.string.soccer_ball_icon),
                 fontSize = 44.sp,
                 modifier = Modifier
                     .scale(ballScale)
@@ -808,14 +837,14 @@ fun LoadingContent(
                 text = message,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF1B1D29),
+                color = WorldCupDarkText,
                 modifier = Modifier.padding(top = 18.dp)
             )
 
             Text(
-                text = "Preparando información del Mundial 2026",
+                text = stringResource(R.string.loading_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color(0xFF4E5668),
+                color = WorldCupSecondaryText,
                 modifier = Modifier.padding(top = 6.dp)
             )
         }
@@ -828,7 +857,9 @@ fun ErrorContent(
     onRetry: () -> Unit
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(brush = worldCupBackgroundBrush()),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -838,11 +869,13 @@ fun ErrorContent(
             Text(
                 text = stringResource(R.string.error_title),
                 style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = WorldCupDarkText
             )
 
             Text(
                 text = message,
+                color = WorldCupSecondaryText,
                 modifier = Modifier.padding(top = 8.dp)
             )
 
@@ -862,7 +895,9 @@ fun EmptyContent(
     onRetry: () -> Unit
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(brush = worldCupBackgroundBrush()),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -872,7 +907,8 @@ fun EmptyContent(
             Text(
                 text = message,
                 style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = WorldCupDarkText
             )
 
             Button(

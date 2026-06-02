@@ -41,4 +41,8 @@
     <string name="clear_search_button">×</string>
     <string name="search_no_results_title">Sin resultados</string>
     <string name="search_no_results_message">No se encontraron equipos relacionados con %1$s.</string>
+
+    <string name="search_icon">🔎</string>
+    <string name="soccer_ball_icon">⚽</string>
+    <string name="loading_subtitle">Preparando información del Mundial 2026</string>
 </resources>
