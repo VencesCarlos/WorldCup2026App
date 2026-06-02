@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">World Cup 2026 App</string>
+
+    <string name="main_title">World Cup 2026</string>
+    <string name="teams_subtitle">Equipos participantes</string>
+    <string name="main_description">Consulta selecciones y jugadores rumbo a la Copa del Mundo.</string>
+
+    <string name="loading_teams">Cargando equipos...</string>
+    <string name="loading_players">Cargando jugadores...</string>
+
+    <string name="teams_error_message">No se pudo cargar la información de los equipos.</string>
+    <string name="players_error_message">No se pudo cargar la información de los jugadores.</string>
+    <string name="connection_error_message">No hay conexión a internet. Revisa tu conexión e inténtalo nuevamente.</string>
+
+    <string name="error_title">Ocurrió un error</string>
+    <string name="retry_button">Intentar de nuevo</string>
+
+    <string name="empty_teams">No se encontraron equipos.</string>
+    <string name="empty_players">No se encontraron jugadores.</string>
+
+    <string name="team_no_name">Equipo sin nombre</string>
+    <string name="team_generic_name">Equipo</string>
+    <string name="team_flag_description">Bandera del equipo</string>
+    <string name="not_available">No disponible</string>
+
+    <string name="team_fifa_code">Código FIFA: %1$s</string>
+    <string name="team_founded">Fundación: %1$s</string>
+    <string name="team_stadium">Estadio: %1$s</string>
+    <string name="see_players">Ver plantilla de jugadores</string>
+
+    <string name="back_to_teams">Regresar a equipos</string>
+    <string name="players_title">Plantilla de jugadores</string>
+
+    <string name="player_position">Posición: %1$s</string>
+    <string name="player_age">Edad: %1$s</string>
+    <string name="player_number">Número: %1$s</string>
+
+    <string name="app_banner_description">Imagen de portada de fútbol</string>
+</resources>
